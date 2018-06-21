@@ -94,7 +94,7 @@ namespace StoreInventory
 
                 Console.WriteLine(formattedString);
 
-                //Method called to
+                //Method called to write content to file.
                 WriteResultsToFile(formattedString);
             }
             catch (Exception Ex)
