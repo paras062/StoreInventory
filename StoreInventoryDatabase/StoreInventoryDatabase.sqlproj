@@ -61,4 +61,10 @@
   <ItemGroup>
     <Build Include="Fruits.sql" />
   </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Configuration" />
+  </ItemGroup>
+  <ItemGroup>
+    <PostDeploy Include="Script.PostDeployment1.sql" />
+  </ItemGroup>
 </Project>
