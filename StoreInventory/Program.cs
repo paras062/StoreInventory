@@ -62,6 +62,7 @@ namespace StoreInventory
                     break;
             }
         }
+
         //Method to Read Data
         static private void ReadData()
         {
@@ -174,7 +175,7 @@ namespace StoreInventory
             fruitQuantity = Console.ReadLine();
         }
 
-        //Delete Data
+        //Method to Delete Data
         static private void DeleteData()
         {
             ReadData();
