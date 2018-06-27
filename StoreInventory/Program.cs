@@ -11,11 +11,72 @@ namespace StoreInventory
 
         static void Main(string[] args)
         {
+            string flag = string.Empty;
+            bool value = true;
+            Console.WriteLine("Select from the following");
+            Console.WriteLine("1. View Data");
+            Console.WriteLine("2. Insert Data");
+            Console.WriteLine("3. Update Existing Data");
+            Console.WriteLine("4. Delete Existing Data");
+            Console.WriteLine(Environment.NewLine);
+
+            while (value)
+            {
+                Console.WriteLine("Please Enter Your Choice");
+                int choice = Convert.ToInt32(Console.ReadLine());
+                ProcessInput(choice);
+                Console.WriteLine("Do you wish to continue? Y/N");
+                flag = Console.ReadLine().ToUpper();
+
+                value = (flag == "YES" || flag == "Y") ? true : false;
+                //if (flag == "YES" || flag == "Y")
+                //{
+                //    value = true;
+                //}
+                //else
+                //{
+                //    value = false;
+                //}
+            }
+        }
+
+        //Process Input
+        static private void ProcessInput(int choice)
+        {
+            switch (choice)
+            {
+                case 1:
+                    ReadData();
+                    break;
+                case 2:
+                    InsertData();
+                    break;
+                case 3:
+                    UpdateData();
+                    break;
+                case 4:
+                    DeleteData();
+                    break;
+                default:
+                    Console.WriteLine("Please select the correct choice!");
+                    break;
+            }
+        }
+        //Method to Read Data
+        static private void ReadData()
+        {
+            BusinessLayer objBL = new BusinessLayer();
             StringBuilder stringBuilder = new StringBuilder();
             string formattedString = string.Empty;
-            BusinessLayer objBL = new BusinessLayer();
+
 
             DataTable dt = objBL.ReadFruitsBAL();
+            foreach (DataColumn column in dt.Columns)
+            {
+                Console.Write(column.ColumnName);
+                Console.Write(" ");
+            }
+            Console.WriteLine(Environment.NewLine);
             foreach (DataRow rows in dt.Rows)
             {
                 foreach (var item in rows.ItemArray)
@@ -28,6 +89,108 @@ namespace StoreInventory
             }
 
             Console.WriteLine(formattedString);
+        }
+
+        //Method to Insert Data
+        static private void InsertData()
+        {
+            Console.WriteLine("Enter Fruit Name: ");
+            string fruitName = Console.ReadLine();
+            Console.WriteLine("Enter Fruit Quantity");
+            string fruitQuantity = Console.ReadLine();
+            BusinessLayer objBL = new BusinessLayer();
+            int rowCount = objBL.InsertFruitsBAL(fruitName, fruitQuantity);
+            if (rowCount > 0)
+            {
+                Console.WriteLine("Record Added");
+            }
+            else
+            {
+                Console.WriteLine("Error while inserting data!!!");
+            }
+        }
+
+        //Method to Update Data
+        static private void UpdateData()
+        {
+            ReadData();
+            Console.WriteLine("Choose Fruit ID you want to update: ");
+            string id = Console.ReadLine();
+            string fruitName = string.Empty;
+            string fruitQuantity = string.Empty;
+            BusinessLayer objBL = new BusinessLayer();
+            Console.WriteLine("What details you want to update? Please select your choice:");
+            Console.WriteLine("1. Fruit Name");
+            Console.WriteLine("2. Quantity");
+            Console.WriteLine("3. Both");
+            string choice = Console.ReadLine();
+            if (choice == "1")
+            {
+                Console.WriteLine("Enter Fruit Name: ");
+                fruitName = Console.ReadLine();
+                int rowCount = objBL.UpdateOnlyFruitsNameBAL(id, fruitName);
+                if (rowCount > 0)
+                {
+                    Console.WriteLine("Record Updated");
+                }
+                else
+                {
+                    Console.WriteLine("Error while updating data!!!");
+                }
+            }
+            else if (choice == "2")
+            {
+                Console.WriteLine("Enter Fruit Quantity: ");
+                fruitQuantity = Console.ReadLine();
+                int rowCount = objBL.UpdateOnlyFruitsQuantityBAL(id, fruitQuantity);
+                if (rowCount > 0)
+                {
+                    Console.WriteLine("Record Updated");
+                }
+                else
+                {
+                    Console.WriteLine("Error while updating data!!!");
+                }
+            }
+            else if (choice == "3")
+            {
+                Console.WriteLine("Enter Fruit Name");
+                fruitName = Console.ReadLine();
+                Console.WriteLine("Enter Fruit Quantity");
+                fruitQuantity = Console.ReadLine();
+                int rowCount = objBL.UpdateFruitNameAndFruitQuantityBAL(id, fruitName, fruitQuantity);
+                if (rowCount > 0)
+                {
+                    Console.WriteLine("Record Updated");
+                }
+                else
+                {
+                    Console.WriteLine("Error while updating data!!!");
+                }
+            }
+
+
+
+            fruitQuantity = Console.ReadLine();
+        }
+
+        //Delete Data
+        static private void DeleteData()
+        {
+            ReadData();
+            Console.WriteLine("Choose Fruit ID you want to delete.");
+            string id = Console.ReadLine();
+            BusinessLayer objBL = new BusinessLayer();
+            int rowCount = objBL.DeleteFruitsDataBAL(id);
+            if (rowCount > 0)
+            {
+                Console.WriteLine("Record Removed");
+            }
+            else
+            {
+                Console.WriteLine("Error while removing record");
+            }
+
         }
         //Console.WriteLine(objBL.ReadFruitsBAL());
 
