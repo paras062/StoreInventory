@@ -58,7 +58,7 @@ namespace StoreInventory
                     DeleteData();
                     break;
                 default:
-                    Console.WriteLine("Please select the correct choice!");
+                    Console.WriteLine("Please select the correct choice!"); ;
                     break;
             }
         }
